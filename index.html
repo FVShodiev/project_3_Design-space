@@ -1,0 +1,744 @@
+<!doctype html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="description"
+    content="Профессиональные услуги по дизайну и отделке дома. Мы создаем уникальные интерьеры, которые отражают ваш стиль и индивидуальность.">
+  <meta name="keywords"
+    content="дизайн интерьера, отделка дома, ремонт, декор, архитектура, уютный дом, интерьер, услуги дизайнера">
+  <meta name="author" content="Дизайн пространства">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Merriweather:wght@400;700&display=swap"
+    rel="stylesheet">
+  <title>Ваш дизайн простраства</title>
+</head>
+
+<style>
+  :root {
+    --font-sans: 'Roboto', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+    --font-head: 'Merriweather', Georgia, serif;
+    --overlay: rgba(0, 0, 0, 0.63);
+    --card-shadow: 0 6px 18px rgba(0, 0, 0, .15);
+  }
+
+  body {
+    font-family: var(--font-sans);
+  }
+
+  .header {
+    width: 100%;
+    min-height: 100vh;
+    background-image: url("img/icon/bg-img.webp");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .navbar {
+    top: 0;
+    z-index: 1000;
+  }
+
+  .nav-link {
+    transition: color 0.3s ease, transform 0.3s ease;
+    color: #fff;
+  }
+
+  .nav-link:hover {
+    transform: scale(1.02);
+    color: #ffffff;
+  }
+
+  .navbar-nav {
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+
+  .header-info {
+    position: absolute;
+    bottom: 10%;
+    left: 46%;
+    transform: translateX(-46%);
+    width: min(100%, 1125px);
+    color: #fff;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.42);
+    padding: 1rem;
+    border-radius: 0.5rem;
+  }
+
+  .title {
+    font-size: clamp(2rem, 5vw, 4rem);
+    margin: 0 0 0.5rem;
+  }
+
+  .subtitle {
+    font-size: clamp(0.95rem, 2vw, 1.125rem);
+  }
+
+  .navbar-toggler {
+    background-color: rgba(255, 255, 255, 0.9);
+  }
+
+  .col-info {
+    min-height: 250px;
+  }
+
+  .card-icon {
+    width: 100px;
+  }
+
+  .col {
+    transition: 0.5s;
+  }
+
+  .col:hover {
+    transform: translateY(-10px);
+  }
+
+  .service-card {
+    height: 360px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    position: relative;
+    color: #fff;
+  }
+
+  .service-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.28);
+    pointer-events: none;
+  }
+
+  .service-card>.card-body {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 1rem;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    background: rgba(0, 0, 0, 0.45);
+  }
+
+  .service-desc {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, transform 0.6s ease;
+    transition-delay: var(--delay, 0ms);
+  }
+
+  .service-desc.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .footer-icon {
+    transition: 0.75s;
+  }
+
+  .footer-icon:hover {
+    transform: scale(1.1);
+  }
+
+  #scrollToTopBtn {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 900;
+    color: white;
+    border: none;
+    padding: 2vh;
+    cursor: pointer;
+    transition: bottom 0.3s ease;
+    background-color: rgba(5, 5, 5, 0.724);
+  }
+
+  #scrollToTopBtn:hover {
+    background-color: rgba(46, 45, 45, 0.404);
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity .6s ease-out, transform .6s ease-out;
+  }
+
+  .card {
+    transition: transform .5s cubic-bezier(.2, .8, .2, 1), box-shadow .3s;
+  }
+
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--card-shadow);
+  }
+
+  .section-title {
+    display: inline-block;
+    position: relative;
+  }
+
+  .section-title::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 60px;
+    height: 2px;
+    background: #000;
+    animation: draw 1s ease forwards;
+  }
+
+  @keyframes draw {
+    from {
+      width: 0;
+    }
+
+    to {
+      width: 100px;
+    }
+  }
+
+  img.icon {
+    vertical-align: middle;
+    margin-right: .25rem;
+  }
+
+</style>
+
+<body>
+
+  <!-- кнопка вверх -->
+  <button onclick="scrollToTop()" id="scrollToTopBtn" title="Наверх" class="rounded">
+    &and;
+  </button>
+
+  <!-- Главная -->
+  <section class="header">
+    <nav class="navbar navbar-expand-md">
+      <div class="container">
+        <a class="navbar-brand" href="#"><img src="img/icon/logo.svg" alt="Логотип компании"></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+          aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav ms-auto mb-lg-0 rounded-4 p-2">
+            <li class="nav-item">
+              <a class="nav-link fw-semibold" href="#about">О нас</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link fw-semibold" href="#services">Услуги</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link fw-semibold" href="#projects">Проекты</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link fw-semibold" href="#questions">Вопросы и ответы</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link fw-semibold" href="#contact">Контакты</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+
+    <div class="header-info p-3 rounded-4" aria-label="Информация о компании">
+      <p class="title text-center text-uppercase fw-semibold">
+        Дизайн пространство
+      </p>
+      <p class="subtitle">
+        Мы создаём комфортные пространства для жизни и работы: архитектура, дизайн интерьеров, инженерия и
+        проекты под ключ.
+        Помогаем планировать, проектировать и реализовывать пространства вашей мечты.
+      </p>
+      <div class="d-flex justify-content-end">
+        <a href="#contact" class="btn btn-outline-light fw-semibold">Отправить заявку</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Блок о нас -->
+  <section class="container mt-5 mb-5" aria-label="Блок о нас" id="about">
+    <h3 class="text-center text-uppercase mb-4 section-title">Немного информации о нас</h3>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
+      <div class="col-lg-6 col">
+        <div class="card rounded-4 reveal"
+          style="background-image: url('img/icon/card-img.webp'); background-size: cover; min-height: 320px;;">
+          <div class="card-body d-flex flex-column text-white fw-semibold p-3">
+            <h4 class="mt-3 mb-4">С нами вы получите</h4>
+            <div class="mt-auto">
+              <p class="mb-0">
+                Высокое качество и своевременное выполнение работ. Мы контролируем каждый этап проекта — от замеров до
+                сдачи объекта, обеспечивая прозрачность процессов, ответственность и индивидуальный подход к каждому
+                заказчику.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col">
+        <div class="card rounded-4 bg-light reveal" style="height: 320px;">
+          <div class="card-body d-flex flex-column text-dark fw-semibold p-3 h-100">
+            <h4 class="mt-3 mb-4">15+ лет</h4>
+            <div class="mt-auto">
+              <p class="mb-0 opacity-75">
+                Опыта в отделке квартир и строительстве коттеджей. Мы реализуем проекты любой сложности: от идеи до
+                готового пространства.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col">
+        <div class="card rounded-4 bg-light reveal" style="height: 320px;">
+          <div class="card-body d-flex flex-column text-dark fw-semibold p-3 h-100">
+            <h4 class="mt-3 mb-4">30+ сотрудников</h4>
+            <div class="mt-auto">
+              <p class="mb-0 opacity-75">
+                Профессиональные сотрудники, знающие свое дело. В составе команды — инженеры, дизайнеры, электрики и
+                мастера по отделке.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 шага -->
+  <section class="container mt-5 mb-5">
+    <h3 class="text-center text-uppercase section-title">Как четыре шага могут решить вашу проблему</h3>
+    <p class="mt-3 mb-3 reveal">
+      Полный цикл под ключ: от идеи до сдачи объекта без лишних подрядчиков, прозрачная стоимость, контроль
+      сроков,
+      единый авторский надзор, качество материалов и гарантия — всё через одного менеджера проекта. Исходя из
+      этого,
+      предлагаем 4 простых шага к реализации любого проекта.
+    </p>
+
+    <div class="row row-cols-1 row-cols-md-2 g-3 mt-3">
+      <div class="col">
+        <div class="card bg-dark text-white rounded-4 reveal">
+          <div class="card-body">
+            <h5 class="card-title fw-semibold mb-3">От вас</h5>
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <img class="icon" src="img/icon/01.svg" alt="Иконка 01" width="20" height="20">
+              <p class="mb-0 fw-semibold">Отправка заявления</p>
+            </div>
+            <p class="border-bottom pb-2 mb-3">Определяем цель, бюджет и сроки, предоставляем замеры и
+              пожелания.</p>
+
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <img class="icon" src="img/icon/02.svg" alt="Иконка 02" width="20" height="20">
+              <p class="mb-0 fw-semibold">Просмотр вариантов</p>
+            </div>
+            <p class="mb-3">Утверждаем стиль, материалы и график работ, подписываем техническое задание.</p>
+
+            <div class="d-flex justify-content-end">
+              <a href="#contact" class="btn btn-outline-light fw-semibold">Контакты</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="card bg-light text-dark rounded-4 reveal">
+          <div class="card-body">
+            <h5 class="card-title fw-semibold mb-3">От нас</h5>
+
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <img class="icon" src="img/icon/03.svg" alt="Иконка 03" width="20" height="20">
+              <p class="mb-0 fw-semibold">Начало процесса работы</p>
+            </div>
+            <p class="border-bottom pb-2 mb-3">Разрабатываем концепцию дизайна и архитектуру, рассчитываем
+              смету и график работ.</p>
+
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <img class="icon" src="img/icon/04.svg" alt="Иконка 04" width="20" height="20">
+              <p class="mb-0 fw-semibold">Заключительный процесс</p>
+            </div>
+            <p class="mb-3">Строим и отделываем под ключ, осуществляем авторский надзор и сдаём объект.</p>
+
+            <div class="d-flex justify-content-end">
+              <a href="#contact" class="btn btn-outline-dark fw-semibold">Контакты</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Блок с услугами   -->
+  <section class="container mt-5 mb-5" aria-label="Наши услуги" id="services">
+    <h3 class="text-center text-uppercase section-title">Наши услуги</h3>
+    <p class="mt-3 mb-3 reveal">Мы предлагаем полный спектр работ: от разработки проекта и монтажа до завершающей
+      отделки и
+      передачи объекта
+      заказчику под ключ, с гарантией качества и соблюдением норм ПУЭ.</p>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3 mt-3" id="services-grid">
+    </div>
+  </section>
+
+  <!-- Проекты -->
+  <section class="container mt-5 mb-5 text-white" aria-label="Портфолио" id="projects">
+    <h3 class="text-center text-uppercase mb-3 text-dark section-title">Проекты</h3>
+    <p class="text-dark mt-3 mb-3 reveal">Наши проекты демонстрируют путь от замысла до готового результата под ключ:
+      качественная отделка, продуманные
+      инженерные решения и дизайн, гармония материалов, освещения и пространства. Мы создаём функциональные и стильные
+      интерьеры, в которых каждая деталь служит комфорту и эстетике.</p>
+
+    <div class="card-portfolio bg-dark mb-5 p-4 rounded-4">
+      <div class="row featurette reveal">
+        <h4 class="text mb-2">Проект ЖК Макаровский</h4>
+        <div class="col-md-7">
+          <p class="text opacity-75">
+            В рамках обновления квартиры площадью около 120кв. м была поставлена задача
+            объединить современные дизайнерские решения с безупречным качеством отделки и соблюдением инженерных
+            требований. Молярные работы включали подготовку поверхностей, шпатлевку и финишную покраску в два слоя -
+            поверхность ровная и матовая. Укладка кафеля: продуманная раскладка, аккуратные швы, гидроизоляция в
+            санузлах
+            и на кухне, ровный уровень пола. Монтаж электрики: скрытая проводка, щит учёта, розетки и выключатели,
+            зонирование освещения и настройка сценариев с энергосберегающими светильниками. Сантехнические работы:
+            монтаж
+            водопровода и канализации, установка сантехники и инсталляций, гидроизоляция там, где нужно. Дизайн-проект:
+            концепция, 3D-визуализации, подбор материалов и палитры, гармония пространства и света. Координация между
+            отделочниками, электриками, сантехниками и дизайнером обеспечила соблюдение графика и контроль качества на
+            каждом этапе.<br> Результат — просторная, светлая и функциональная квартира с безупречной отделкой и
+            реализованным
+            дизайном. Клиент отметил высокое качество, сроки и гармонию эстетики и функциональности.</p>
+        </div>
+        <div class="col-md-5">
+          <div id="Project_1" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner rounded-4">
+              <div class="carousel-item active">
+                <img class="slider-img-project" src="img/projects/project_1/p_1.webp" width="100%" height="400vh"
+                  aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+              </div>
+              <div class="carousel-item">
+                <img class="slider-img-project" src="img/projects/project_1/p_2.webp" width="100%" height="400vh"
+                  aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+              </div>
+              <div class="carousel-item">
+                <img class="slider-img-project" src="img/projects/project_1/p_3.webp" width="100%" height="400vh"
+                  aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+              </div>
+              <div class="carousel-item">
+                <img class="slider-img-project" src="img/projects/project_1/p_4.webp" width="100%" height="400vh"
+                  aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+              </div>
+              <div class="carousel-item">
+                <img class="slider-img-project" src="img/projects/project_1/p_5.webp" width="100%" height="400vh"
+                  aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+              </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#Project_1" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#Project_1" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="row featurette mb-4 reveal">
+        <h4 class="text mt-5 mb-3">Проект ЖК Мечта</h4>
+        <div class="col-md-7 order-md-2">
+          <p class="text opacity-75">Этот проект стал ярким примером слаженной работы команды: отделочные работы
+            выполнены безупречно — стены выровнены, окраска ровная и фактура поверхности соответствует концепции,
+            молярные работы точно соответствуют требованиям к долговечности и эстетике, а укладка кафеля выполнена с
+            аккуратными швами и идеальной геометрией линий. В рамках проекта осуществлены монтаж электрики: скрытая
+            проводка, грамотное зонирование освещения, продуманное размещение розеток и выключателей, соответствие схем
+            дизайнерским решениям и требованиям безопасности. Сантехнические услуги включали качественную разводку
+            водоснабжения и канализации, установку сантехники и санфаянса, гидроизоляцию там, где это необходимо, а
+            затем тщательное тестирование на герметичность и давление.
+
+            Услуги дизайнера дополняли техническую часть проекта: от разработки общей концепции и подбора материалов до
+            цветовых решений, световых сценариев и расстановки мебели. <br> Клиент получил объект «под ключ» с
+            современной инженерией, безупречной отделкой и продуманным дизайном.</p>
+        </div>
+        <div class="col-md-5 order-md-1">
+          <div id="Project_2" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner rounded-4">
+              <div class="carousel-item active">
+                <img class="slider-img-project" src="img/projects/project_2/p_1.webp" width="100%" height="400vh"
+                  aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+              </div>
+              <div class="carousel-item">
+                <img class="slider-img-project" src="img/projects/project_2/p_2.webp" width="100%" height="400vh"
+                  aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+              </div>
+              <div class="carousel-item">
+                <img class="slider-img-project" src="img/projects/project_2/p_3.webp" width="100%" height="400vh"
+                  aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+              </div>
+              <div class="carousel-item">
+                <img class="slider-img-project" src="img/projects/project_2/p_4.webp" width="100%" height="400vh"
+                  aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+              </div>
+              <div class="carousel-item">
+                <img class="slider-img-project" src="img/projects/project_2/p_5.webp" width="100%" height="400vh"
+                  aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+              </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#Project_2" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#Project_2" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="text mt-5 border-bottom pb-3 mb-4 fw-semibold">Недавние проекты</h3>
+      <div class="row featurette mb-4 g-5 reveal">
+        <div class="col-md-6 order-md-1 reveal">
+          <h4 class="text mb-3">Проект Декабристов</h4>
+          <div id="Project_3" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner rounded-4">
+              <div class="carousel-item active">
+                <img class="slider-img-project" src="img/projects/project_3/p_1.webp" width="100%" height="400vh"
+                  aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+              </div>
+              <div class="carousel-item">
+                <img class="slider-img-project" src="img/projects/project_3/p_2.webp" width="100%" height="400vh"
+                  aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+              </div>
+              <div class="carousel-item">
+                <img class="slider-img-project" src="img/projects/project_3/p_3.webp" width="100%" height="400vh"
+                  aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+              </div>
+              <div class="carousel-item">
+                <img class="slider-img-project" src="img/projects/project_3/p_4.webp" width="100%" height="400vh"
+                  aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+              </div>
+              <div class="carousel-item">
+                <img class="slider-img-project" src="img/projects/project_3/p_5.webp" width="100%" height="400vh"
+                  aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+              </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#Project_3" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#Project_3" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+        </div>
+        <div class="col-md-6 order-md-1 reveal">
+          <h4 class="text mb-3">Проект Попова</h4>
+          <div id="Project_4" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner rounded-4">
+              <div class="carousel-item active">
+                <img class="slider-img-project" src="img/projects/project_4/p_1.webp" width="100%" height="400vh"
+                  aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+              </div>
+              <div class="carousel-item">
+                <img class="slider-img-project" src="img/projects/project_4/p_2.webp" width="100%" height="400vh"
+                  aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+              </div>
+              <div class="carousel-item">
+                <img class="slider-img-project" src="img/projects/project_4/p_3.webp" width="100%" height="400vh"
+                  aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+              </div>
+              <div class="carousel-item">
+                <img class="slider-img-project" src="img/projects/project_4/p_4.webp" width="100%" height="400vh"
+                  aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+              </div>
+              <div class="carousel-item">
+                <img class="slider-img-project" src="img/projects/project_4/p_5.webp" width="100%" height="400vh"
+                  aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+              </div>
+              <div class="carousel-item">
+                <img class="slider-img-project" src="img/projects/project_4/p_6.webp" width="100%" height="400vh"
+                  aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+              </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#Project_4" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#Project_4" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Часто задаваемые вопросы -->
+  <section class="container mt-5 mb-5">
+    <div class="m-0 border-0">
+      <h3 class="text-center mb-4 text-uppercase section-title" id="questions">Часто задаваемые вопросы (FAQ)</h3>
+      <div class="accordion reveal" id="accordionExample">
+        <div class="accordion-item">
+          <h4 class="accordion-header">
+            <button class="accordion-button collapsed fw-semibold text-dark" type="button" data-bs-toggle="collapse"
+              data-bs-target="#collapseA" aria-expanded="false" aria-controls="collapseA">
+              Какова ориентировочная стоимость дома под ключ и что именно входит в эту стоимость?
+            </button>
+          </h4>
+          <div id="collapseA" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+              Стоимость рассчитывается по смете и зависит от площади, уровня отделки, материалов и инфраструктуры.
+              Включено обычно: проектирование и согласование, монтаж фундамента и каркаса, кровля, внешняя и внутренняя
+              отделка, инженерные сети (электрика, водоснабжение, отопление/теплоснабжение), сантехника, отделочные
+              работы, дизайн интерьера, авторский надзор и управление проектом, вывоз мусора. Не включено часто:
+              ландшафтный дизайн, мебель и бытовая техника, дорогостоящие перепланировки или изменения в проекте после
+              утверждения, спецоборудование. Дополнительные работы и изменения оформляются отдельным допсоглашением с
+              указанием стоимости и сроков. Оплата обычно по этапам: аванс и последующие платежи по выполнению работ.
+              Точную смету и график срока мы предоставляем после выезда специалиста на объект.
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h4 class="accordion-header">
+            <button class="accordion-button collapsed fw-semibold text-dark" type="button" data-bs-toggle="collapse"
+              data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+              Как вы контролируете качество и как проходит приемка работ?
+            </button>
+          </h4>
+          <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+              Мы используем строгий регламент контроля качества на каждом этапе: утвержденный график работ, паспорта на
+              материалы, акты скрытых и принятых работ, фото-отчеты по этапам, промежуточная приемка заказчиком и
+              финальная приемка по актам выполненных работ. Есть возможность привлечь независимого технадзора по
+              запросу. Гарантийные обязательства закрепляются в договоре и сопровождаются документами на материалы и
+              оборудование. Такой подход обеспечивает прозрачность процесса и минимизацию рисков для заказчика.
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h4 class="accordion-header">
+            <button class="accordion-button collapsed fw-semibold text-dark" type="button" data-bs-toggle="collapse"
+              data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+              Как обрабатываются изменения в проекте и дополнительные работы?
+            </button>
+          </h4>
+          <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+              Любые изменения оформляются как допсоглашение к договору: в нем прописываются объем работ, новая стоимость
+              и сроки выполнения. После согласования стороны вносят изменения в план график и смету. Мы помогаем
+              подбирать альтернативы материалам или решения, чтобы не существенно увеличивать сроки и бюджет, но при
+              этом сохранять качество. Утверждение изменений обычно занимает короткий срок (один-два рабочих дня), что
+              позволяет минимизировать задержки в строительстве.
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="mt-4 mb-3 text-center fw-semibold reveal">Если нету ответа то свяжитесь с нами мы решим даную проблему.
+      </p>
+      <div class="d-flex justify-content-center reveal">
+        <a href="#contact" class="btn btn-outline-dark fw-semibold">Контакты</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Форма заявк -->
+  <section class="container mt-5 mb-5" id="contact">
+    <h3 class="text-center text-uppercase section-title">Контакты</h3>
+    <p class="mt-3 mb-3 reveal">Готовы начать? Свяжитесь с нами или отправьте заявку, и мы свяжемся с вами в ближайшее
+      время,
+      чтобы ответить на вопросы и обсудить детали проекта. </p>
+    <div class="row row-cols-1 row-cols-md-2 g-3 mt-3">
+      <div class="col-lg-6">
+        <div class="card-block bg-light text-dark rounded-4 reveal">
+          <div class="card-text p-4">
+            <h5 class="pb-3 fw-semibold text-center">Заявка</h5>
+            <form action="../controller/application.php" method="post" class="needs-validation" novalidate>
+              <div class="form-group mb-4">
+                <label for="validationCustom02" class="form-label">Имя
+                </label>
+                <input type="text" class="form-control" id="validationCustom02" name="name" placeholder="Ваше имя"
+                  title="Введите ваше имя" required>
+                <div class="valid-feedback">
+                  Все верно!
+                </div>
+                <div class="invalid-feedback">
+                  Введите ваше имя
+                </div>
+              </div>
+              <div class="form-group mb-2">
+                <label for="validationCustom06" class="form-label">Телефон</label>
+                <input type="tel" class="form-control" id="validationCustom06" name="phone"
+                  pattern="^+7(d{3})-d{3}-d{2}-d{2}$" placeholder="+7(XXX)-XXX-XX-XX"
+                  title="Введите номер вашего телефона" required>
+                <div class="valid-feedback">
+                  Все верно!
+                </div>
+                <div class="invalid-feedback">
+                  Пожалуйста, введите номер телефона в формате +7(XXX)-XXX-XX-XX.
+                </div>
+              </div>
+              <div class="d-flex justify-content-end mt-4">
+                <button type="submit" class="btn btn-outline-dark fw-semibold">Отправить</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="card-block bg-dark text-white rounded-4 reveal">
+          <div class="card-text p-4">
+            <h5 class="text pb-3 border-bottom">Контакты</h5>
+            <p class="text">+7 (000) 000-00-00 <br>Звоните только в рабочие дни и с 10:00 до 20:00, г. Екатеринбург</p>
+            <h5 class="text pb-3 border-bottom">Мы в соцетях</h5>
+            <a href="http://t.me/Shodiev_21"><img src="img/link_img/telegram-svgrepo-com.svg" width="45vh"
+                class="footer-icon m-1"></a>
+            <a href="https://vk.com/id841679111"><img src="img/link_img/vk-v2-svgrepo-com.svg" width="40vh"
+                class="footer-icon m-1"></a>
+            <a href="https://wa.me/+79220228427"><img src="img/link_img/whatsapp-color-svgrepo-com.svg" width="40vh"
+                class="footer-icon m-1"></a>
+            <h5 class="text pt-3 pb-3 border-bottom">Наш тг канал</h5>
+            <p class="text">Следите за нашими последними проектами, оцените наши возможности и убедитесь в их
+              надежности.
+              Присоединяйтесь к нашему каналу, там мы делимся новостями, примерами работ и полезными материалами. </p>
+            <a href="http://t.me/Shodiev_21"><img src="img/link_img/telegram-svgrepo-com.svg" width="45vh"
+                class="footer-icon m-1"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Футер -->
+  <section class="container mt-5 mb-5">
+    <div class="footer">
+      <p class="text-center p-4 border-top"><span class="fw-semibold">© 2025 ИП Денис Галицкий. </span>Все права
+        защищены.</p>
+    </div>
+  </section>
+
+  <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+  <script src="assets/script.js"></script>
+</body>
+
+</html>
